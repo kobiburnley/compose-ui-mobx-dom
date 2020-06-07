@@ -18,8 +18,12 @@
       "skipLibCheck": true,
       "sourceMap": true,
       "moduleResolution": "node",
-      "module": "ESNext"
+      "module": "ESNext",
+      "composite": true
     },
+    "references": [{
+      "path": "../compose-ui/tsconfig.build.json"
+    }],
     "include": [
       "src/**/*.ts*"
     ]

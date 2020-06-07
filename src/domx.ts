@@ -29,13 +29,12 @@ export function domx<K extends ElementKey>(props: DomXProps<K>) {
     const { tagName, children, innerHTML, ref, ...attributes } = props
     const { renderer, maybeNode } = context
     const { document } = renderer
-    
+
     const element = useReplaceOrCreateNode({
       context,
       createNode: () => document.createElement(tagName),
       nodeTypeMatches: (node) =>
         node instanceof HTMLElement && node.tagName === tagName,
-      maybeNode,
     })
 
     if (attributes != null) {
@@ -85,7 +84,7 @@ export function domx<K extends ElementKey>(props: DomXProps<K>) {
           context: {
             ...context,
             maybeNode: maybeChild,
-            parentNode: element
+            parentNode: element,
           },
         })
       }

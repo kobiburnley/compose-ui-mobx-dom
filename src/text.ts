@@ -13,7 +13,6 @@ export function text(props: { data: () => string }) {
       context,
       createNode: () => document.createTextNode(data()),
       nodeTypeMatches: (node) => node instanceof renderer.window.Text,
-      maybeNode,
     })
 
     reaction(
