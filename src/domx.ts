@@ -27,14 +27,14 @@ export type DomXProps<K extends ElementKey> = DomXHTMLAttributes<K> & {
 export function domx<K extends ElementKey>(props: DomXProps<K>) {
   return function (context: Context) {
     const { tagName, children, innerHTML, ref, ...attributes } = props
-    const { renderer, maybeNode } = context
+    const { renderer } = context
     const { document } = renderer
 
     const element = useReplaceOrCreateNode({
       context,
       createNode: () => document.createElement(tagName),
       nodeTypeMatches: (node) =>
-        node instanceof HTMLElement && node.tagName === tagName,
+        node instanceof HTMLElement && node.tagName.toLowerCase() === tagName.toLowerCase(),
     })
 
     if (attributes != null) {
@@ -76,9 +76,14 @@ export function domx<K extends ElementKey>(props: DomXProps<K>) {
     }
 
     if (children != null) {
-      for (let i = 0; i < children.length; i++) {
+      // console.log("context.maybeNode", context.maybeNode)
+      // console.log("context.maybeNode.childNodes", ...context.maybeNode?.childNodes!)
+
+      const childNodes = Array.from(context.maybeNode?.childNodes?.values?.() ?? [])
+      for (let i = 0, len = children.length; i < len; i++) {
         const child = children[i]
-        const maybeChild = context.maybeNode?.childNodes[i]
+        const maybeChild = childNodes[i]
+        // console.log("maybeChild", i, maybeChild)
         render({
           child,
           context: {
